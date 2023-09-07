@@ -1,33 +1,33 @@
 class PersonalInfo {
-    private String fname;
-    private String lname;
-    private MaritalStatus mstat;
+    private String first;  // First name
+    private String last;   // Last name
+    private Status status; // Marital Status
 
-    public PersonalInfo(String fname, String lname, String mstat)
+    public PersonalInfo(String first, String last, String status)
     {
-        this.fname = fname;
-        this.lname = lname;
-        this.mstat = MaritalStatus.fromString(mstat);
+        this.first = first;
+        this.last = last;
+        this.status = Status.fromString(status);
     }
 
     public String toString()
     {
-        return String.format("%s, %s: (%s)",fname,lname,mstat.toString());
+        return String.format("%s, %s: (%s)",first,last,status.toString());
     }
 
-    private enum MaritalStatus {
+    private enum Status {
         MARRIED,
         SINGLE,
         DIVORCED,
         WIDOWED,
         NA;
         /**
-         * The toString method for MaritalStatus
+         * The toString method for Status
          * @return the string representation of the marital status
          */
         public String toString()
         {
-            if (this == MaritalStatus.NA) {
+            if (this == Status.NA) {
                 return "N/A";
             }
             else {
@@ -37,14 +37,14 @@ class PersonalInfo {
                    name().substring(1).toLowerCase();
             }
         }
-        public static MaritalStatus fromString(String str)
+        public static Status fromString(String str)
         {
-            for (int i = 0; i < MaritalStatus.values().length; i++) {
-                if (str.toUpperCase().equals(MaritalStatus.values()[i].name())) {
-                    return MaritalStatus.values()[i];
+            for (int i = 0; i < Status.values().length; i++) {
+                if (str.toUpperCase().equals(Status.values()[i].name())) {
+                    return Status.values()[i];
                 }
             }
-            return MaritalStatus.NA;
+            return Status.NA;
         }
     }
 }
