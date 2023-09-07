@@ -1,4 +1,4 @@
-class PersonalInfo {
+class PersonalInfo implements Cloneable {
     private String first;  // First name
     private String last;   // Last name
     private Status status; // Marital Status
@@ -14,6 +14,8 @@ class PersonalInfo {
     {
         return String.format("%s, %s: (%s)",first,last,status.toString());
     }
+
+    /* Object's .clone() should work for this */
 
     private enum Status {
         MARRIED,
