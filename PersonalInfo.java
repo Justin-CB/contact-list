@@ -9,10 +9,6 @@ public class PersonalInfo implements Cloneable {
         this.status = Status.fromString(status);
     }
 
-    public String toString() {
-        return String.format("%s, %s: (%s)", first, last, status.toString());
-    }
-
     public String getFirst() {
         return first;
     }
@@ -36,4 +32,31 @@ public class PersonalInfo implements Cloneable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public void setStatus(String status) {
+        this.status = Status.fromString(status);
+    }
+
+    public String toString()
+    {
+        return String.format("%s, %s: (%s)",first,last,status.toString());
+    }
+
+    /* Object's .clone() should work for this */
+
+    public boolean equals(Object o)
+    {
+        boolean res = false;
+        if (o instanceof PersonalInfo) {
+            PersonalInfo other = (PersonalInfo)o;
+            if (this.first.equals(other.first) &&
+                this.last.equals(other.last) &&
+                this.status == other.status
+               ) {
+                res = true;
+            }
+        }
+        return res;
+    }
+
 }
