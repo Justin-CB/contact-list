@@ -28,9 +28,7 @@ public class PersonalContact extends Contact {
             value = value.toLowerCase();
             switch (attribute) {
                 case "label":
-                    // TODO This does not make sense because I don't know what a
-                    // label is
-                    containsValue = label.equals(value);
+                    containsValue = label == label.fromString(value);
                 default:
                     throw e;
             }
@@ -46,12 +44,35 @@ public class PersonalContact extends Contact {
             value = value.toLowerCase();
             switch (attribute) {
                 case "label":
-                    // TODO This also does not make sense because I don't know
-                    // what a label is
-                    label = new Label(value);
+                    label = Label.fromString(value);
                 default:
                     throw e;
             }
+    public String toString()
+    {
+        return "Category: " + label + '\n' + super.toString();
+    }
+
+    /* we can just rely on super.clone b/c our only field is an enum. */
+
+    private enum Label {
+        SISTER,
+        BROTHER,
+        DAD,
+        MOM,
+        FRIEND,
+        OTHER;
+        
+        /* Just use enum's default toString */
+
+        public static Label fromString(String str)
+        {
+            for (int i = 0; i < Label.values().length; i++) {
+                if (str.toUpperCase().equals(Label.values()[i].name())) {
+                    return Label.values()[i];
+                }
+            }
+            return Label.OTHER;
         }
     }
 }
