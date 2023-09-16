@@ -67,12 +67,14 @@ public class PersonalContact extends Contact {
 
         public static Label fromString(String str)
         {
-            for (int i = 0; i < Label.values().length; i++) {
-                if (str.toUpperCase().equals(Label.values()[i].name())) {
-                    return Label.values()[i];
-                }
+            Label res;
+            try {
+                res = Label.valueOf(str.toUpperCase());
             }
-            return Label.OTHER;
+            catch (IllegalArgumentException e) {
+                res = Label.OTHER;
+            }
+            return res;
         }
     }
 }
