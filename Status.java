@@ -24,11 +24,13 @@ public enum Status {
     }
 
     public static Status fromString(String str) {
-        for (int i = 0; i < Status.values().length; i++) {
-            if (str.toUpperCase().equals(Status.values()[i].name())) {
-                return Status.values()[i];
-            }
+        Status res;
+        try {
+            res = Status.valueOf(str.toUpperCase());
         }
-        return Status.NA;
+        catch (IllegalArgumentException e) {
+            res = Status.NA;
+        }
+        return res;
     }
 }
