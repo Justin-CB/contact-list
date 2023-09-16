@@ -42,19 +42,21 @@ public class PersonalInfo implements Cloneable {
         return String.format("%s, %s: (%s)",first,last,status.toString());
     }
 
-    /* Object's .clone() should work for this */
+    public PersonalInfo clone()
+    {
+        return (PersonalInfo)super.clone();
+    }
 
     public boolean equals(Object o)
     {
-        boolean res = false;
-        if (o instanceof PersonalInfo) {
+        boolean res = (this == o);
+        if (!res && o instanceof PersonalInfo) {
             PersonalInfo other = (PersonalInfo)o;
-            if (this.first.equals(other.first) &&
+            res = (
+                this.first.equals(other.first) &&
                 this.last.equals(other.last) &&
                 this.status == other.status
-               ) {
-                res = true;
-            }
+               );
         }
         return res;
     }

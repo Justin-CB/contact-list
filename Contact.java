@@ -9,6 +9,36 @@ public class Contact implements ContactInterface, Cloneable {
     private String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city", "state",
             "zip" };
 
+    public Contact clone()
+    {
+        try {
+            Contact copy = (Contact)super.clone();
+            copy.person = person.clone();
+            copy.address = address.clone();
+            return copy;
+        }
+        catch (CloneNotSupportedException e) {
+            /* Shouldn't happen */
+            return null;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        boolean res = (this == o);
+        if (!res && o instanceof Contact) {
+            Contact other = (Contact)o;
+            res = (
+                other.person.equals(this.person) &&
+                other.address.equals(this.address) &&
+                other.phone.equals(this.phone) &&
+                other.email.equals(this.email)
+            );
+        }
+        return res;
+    }
+
     @Override
     public boolean exists(String attribute) {
         for (String attr : attrs) {
@@ -116,7 +146,7 @@ public class Contact implements ContactInterface, Cloneable {
     }
 }
 
-class Address {
+class Address implements Cloneable{
     private int zipCode;
     private String streetAddress;
     private String city;
@@ -153,6 +183,23 @@ class Address {
     public void setState(String state) {
         this.state = state;
     }
+
+    public Address clone()
+    {
+        return (Address)super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        boolean res = (this == o);
+        if (!res && o instanceof Address) {
+            Address other = (Address)o;
+            res = (
+                this.zipCode == other.zipCode &&
+                this.streetAddress.equals(other.streetAddress) &&
+                this.city.equals(other.city) &&
+
 
     Address(int zipCode, String streetAddress, String city, String state) {
         this.zipCode = zipCode;

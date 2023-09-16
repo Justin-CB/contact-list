@@ -3,7 +3,7 @@ public class PersonalContact extends Contact {
 
     // private values = new String[] {"phone", "status", "first", "last", "email",
     // "street", "city", "state", "zip", "title", "department", "company", "label"};
-    private String[] attrs = new String[] { "label" };
+    private final String[] attrs = new String[] { "label" };
 
     @Override
     public boolean exists(String attribute) {
@@ -17,6 +17,11 @@ public class PersonalContact extends Contact {
             }
         }
         return false;
+    }
+
+    public PersonalContact clone()
+    {
+        return (PersonalContact)super.clone();
     }
 
     @Override
@@ -48,6 +53,8 @@ public class PersonalContact extends Contact {
                 default:
                     throw e;
             }
+        }
+    }
     public String toString()
     {
         return "Category: " + label + '\n' + super.toString();
