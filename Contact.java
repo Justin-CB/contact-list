@@ -9,6 +9,20 @@ public class Contact implements ContactInterface, Cloneable {
     private String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city", "state",
             "zip" };
 
+    public Contact(String first, String last, String status, String city, String state, String zip, String phone, String email) throws IllegalStateException
+    {
+        this.person = new PersonalInfo(first, last, status);
+        try {
+            this.setValue("zip", zip);
+        }
+        catch (IllegalArgumentException e) {
+            throw new IllegalStateException(e.message);
+        }
+        this.checkPhone(phone);
+        this.phone = phone;
+        this.email = email;
+    }
+
     public Contact clone()
     {
         try {
@@ -90,14 +104,6 @@ public class Contact implements ContactInterface, Cloneable {
                     // do nothing
                 }
                 break;
-            // case "title":
-            // break;
-            // case "department":
-            // break;
-            // case "company":
-            // break;
-            // case "label":
-            // break;
             default:
                 throw new IllegalArgumentException("attribute not specified");
         }
@@ -108,7 +114,13 @@ public class Contact implements ContactInterface, Cloneable {
     public void setValue(String attribute, String value) throws IllegalArgumentException {
         switch (attribute) {
             case "phone":
-                phone = value;
+                try {
+                    this.checkPhone(value);
+                    phone = value;
+                }
+                catch (IllegalStateException e) {
+                    throw new IllegalArgumentException(e.message);
+                }
                 break;
             case "status":
                 person.setStatus(Status.valueOf(value));
@@ -137,14 +149,6 @@ public class Contact implements ContactInterface, Cloneable {
                 }
                 address.setZipCode(Integer.parseInt(value));
                 break;
-            // case "title":
-            // break;
-            // case "department":
-            // break;
-            // case "company":
-            // break;
-            // case "label":
-            // break;
             default:
                 throw new IllegalArgumentException("attribute not specified");
         }
@@ -159,7 +163,7 @@ class Address implements Cloneable{
 
     public String toString()
     {
-        return String.format("\t%s\n\t%s, %s %d", streetAddress, city, state, zipCode);
+        return String.format("\t%s\n\t%s, %s %05d", streetAddress, city, state, zipCode);
     }
 
     public int getZipCode() {
@@ -167,6 +171,9 @@ class Address implements Cloneable{
     }
 
     public void setZipCode(int zipCode) {
+        if (zipCode > 99999) {
+            throw new IllegalArgumentException("Zip code must have at most 5 non-zero digits");
+        }
         this.zipCode = zipCode;
     }
 
