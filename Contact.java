@@ -23,6 +23,11 @@ public class Contact implements ContactInterface, Cloneable {
         }
     }
 
+    public String toString()
+    {
+        return String.format("\t%s:\tPhone: %s\n%s", person.toString(), phone, address.toString());
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -152,6 +157,11 @@ class Address implements Cloneable{
     private String city;
     private String state;
 
+    public String toString()
+    {
+        return String.format("\t%s\n\t%s, %s %d", streetAddress, city, state, zipCode);
+    }
+
     public int getZipCode() {
         return zipCode;
     }
@@ -186,7 +196,13 @@ class Address implements Cloneable{
 
     public Address clone()
     {
-        return (Address)super.clone();
+        try {
+            return (Address)super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            /* This shouldn't happen */
+            return null;
+        }
     }
 
     @Override
@@ -199,6 +215,11 @@ class Address implements Cloneable{
                 this.zipCode == other.zipCode &&
                 this.streetAddress.equals(other.streetAddress) &&
                 this.city.equals(other.city) &&
+                this.state.equals(other.state)
+            );
+        }
+        return res;
+    }
 
 
     Address(int zipCode, String streetAddress, String city, String state) {

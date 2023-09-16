@@ -44,7 +44,13 @@ public class PersonalInfo implements Cloneable {
 
     public PersonalInfo clone()
     {
-        return (PersonalInfo)super.clone();
+        try {
+            return (PersonalInfo)super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            /* Shouldn't happen */
+            return null;
+        }
     }
 
     public boolean equals(Object o)

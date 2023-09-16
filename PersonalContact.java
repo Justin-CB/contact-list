@@ -3,7 +3,7 @@ public class PersonalContact extends Contact {
 
     // private values = new String[] {"phone", "status", "first", "last", "email",
     // "street", "city", "state", "zip", "title", "department", "company", "label"};
-    private final String[] attrs = new String[] { "label" };
+    private static final String[] attrs = { "label" };
 
     @Override
     public boolean exists(String attribute) {
@@ -34,6 +34,7 @@ public class PersonalContact extends Contact {
             switch (attribute) {
                 case "label":
                     containsValue = label == label.fromString(value);
+                    break;
                 default:
                     throw e;
             }
@@ -50,6 +51,7 @@ public class PersonalContact extends Contact {
             switch (attribute) {
                 case "label":
                     label = Label.fromString(value);
+                    break;
                 default:
                     throw e;
             }
@@ -60,7 +62,8 @@ public class PersonalContact extends Contact {
         return "Category: " + label + '\n' + super.toString();
     }
 
-    /* we can just rely on super.clone b/c our only field is an enum. */
+    /* Use super.equals b/c we ignore the label & it's the only field *
+     * that's additional to the superclass.                           */
 
     private enum Label {
         SISTER,
