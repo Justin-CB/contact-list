@@ -5,9 +5,9 @@ public class PersonalContact extends Contact {
     // "street", "city", "state", "zip", "title", "department", "company", "label"};
     private static final String[] attrs = { "label" };
 
-    public PersonalContact(String first, String last, String city, String state, String zip, String phone, String email, String label) throws IllegalStateException
+    public PersonalContact(String first, String last, String street, String city, String state, String zip, String phone, String email, String label) throws IllegalStateException
     {
-        super(first, last, "NA", city, state, zip, phone, email);
+        super(first, last, "NA", street, city, state, zip, phone, email);
         this.label = Label.fromString(label);
     }
 

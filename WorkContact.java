@@ -5,6 +5,14 @@ public class WorkContact extends Contact {
 
     private static final String[] attrs = {"title","company","department"};
 
+    public WorkContact(String first, String last, String status, String street, String city, String state, String zip, String phone, String email, String title, String company, String department) throws IllegalStateException
+    {
+        super(first, last, status, street, city, state, zip, phone, email);
+        this.title = title;
+        this.company = company;
+        this.department = department;
+    }
+
     @Override
     public boolean exists(String attribute) {
         if (super.exists(attribute)) {

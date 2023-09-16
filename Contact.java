@@ -9,15 +9,10 @@ public class Contact implements ContactInterface, Cloneable {
     private String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city", "state",
             "zip" };
 
-    public Contact(String first, String last, String status, String city, String state, String zip, String phone, String email) throws IllegalStateException
+    public Contact(String first, String last, String status, String street, String city, String state, String zip, String phone, String email) throws IllegalStateException
     {
         this.person = new PersonalInfo(first, last, status);
-        try {
-            this.setValue("zip", zip);
-        }
-        catch (IllegalArgumentException e) {
-            throw new IllegalStateException(e.message);
-        }
+        this.address = new Address(zip, street, city, state);
         this.checkPhone(phone);
         this.phone = phone;
         this.email = email;
@@ -229,8 +224,16 @@ class Address implements Cloneable{
     }
 
 
-    Address(int zipCode, String streetAddress, String city, String state) {
-        this.zipCode = zipCode;
+    Address(String zipCode, String streetAddress, String city, String state) {
+        if (zipCode.length != 5) {
+            throw new IllegalStateException("Zip Code length must be 5");
+        }
+        try {
+            this.zipCode = Integer.parseInt(zipCode);
+        }
+        catch (NumberFormatException e) {
+            throw new IllegalStateException(e.message);
+        }
         this.streetAddress = streetAddress;
         this.city = city;
         this.state = state;
