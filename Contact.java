@@ -114,7 +114,7 @@ public class Contact implements ContactInterface, Cloneable {
                     phone = value;
                 }
                 catch (IllegalStateException e) {
-                    throw new IllegalArgumentException(e.message);
+                    throw new IllegalArgumentException(e.getMessage());
                 }
                 break;
             case "status":
@@ -225,14 +225,14 @@ class Address implements Cloneable{
 
 
     Address(String zipCode, String streetAddress, String city, String state) {
-        if (zipCode.length != 5) {
+        if (zipCode.length() != 5) {
             throw new IllegalStateException("Zip Code length must be 5");
         }
         try {
             this.zipCode = Integer.parseInt(zipCode);
         }
         catch (NumberFormatException e) {
-            throw new IllegalStateException(e.message);
+            throw new IllegalStateException(e.getMessage());
         }
         this.streetAddress = streetAddress;
         this.city = city;
