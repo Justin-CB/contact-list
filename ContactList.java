@@ -42,7 +42,6 @@ public class ContactList {
         int group;
         String attr;
         String val;
-        Table<Contact> table;
         readInput(file1, table1);
         readInput(file2, table2);
         System.out.println("Welcome to database display");
@@ -65,35 +64,77 @@ public class ContactList {
                     System.out.print("Enter value >");
                     val = sysin.nextLine();
                     if (group == 1) {
-                        table = table1.intersect(attr, val, table2);
+                        printBanner(1,2);
+                        System.out.println(table1.intersect(attr, val, table2));
+                        printBanner(1,2);
                     }
                     else { /* group == 2 */
-                        table = table2.intersect(attr, val, table1);
+                        printBanner(2,1);
+                        System.out.println(table2.intersect(attr, val, table1));
+                        printBanner(2,1);
                     }
-                    System.out.println(table);
+                    break;
                 case 2:
                     group = getGroup("Enter Contact List");
                     if (group == 1) {
-                        table = table1.difference(table2);
+                        printBanner(1,2);
+                        System.out.println(table1.difference(table2));
+                        printBanner(1,2);
                     }
                     else if (group == 2) {
-                        table = table2.difference(table1);
+                        printBanner(2,1);
+                        System.out.println(table2.difference(table1));
+                        printBanner(2,1);
                     }
                     else {
                         System.err.println("Invalid List Number");
+                    }
+                    break;
+                case 3:
+                    group = getGroup("Enter Contact List");
+                    if (group == 1) {
+                        printBanner(1,2);
+                        System.out.println(table1.union(table2));
+                        printBanner(1,2);
+                    }
+                    else if (group == 2) {
+                        printBanner(2,1);
+                        System.out.println(table2.union(table1));
+                        printBanner(2,1);
+                    }
+                    else {
+                        System.err.println("Invalid List Number");
+                    }
+                    break;
+                case 4:
+                    group = getGroup("Enter table (1/2)");
+                    if (group != 1 && group != 2) {
+                        System.err.println("Invalid group");
                         break;
                     }
                 case 6:
-                    System.out.println("===========================Contact List 1============================");
+                    printBanner(1);
                     System.out.print(table1);
-                    System.out.println("===========================Contact List 1============================");
+                    printBanner(1);
                     System.out.println();
-                    System.out.println("===========================Contact List 2============================");
+                    printBanner(2);
                     System.out.print(table2);
-                    System.out.println("===========================Contact List 2============================");
+                    printBanner(2);
                     break;
+                default:
+                    System.err.println("Invalid choice");
+               
             }
         }
+    }
+
+    private void printBanner(int grp)
+    {
+        System.out.printf("===========================Contact List %d============================\n",grp);
+    }
+    private void printBanner(int grp1, int grp2)
+    {
+        System.out.printf("===========================Contact List %d, Contact List %d============================\n",grp1,grp2);
     }
 
     private int readIntChoice()
