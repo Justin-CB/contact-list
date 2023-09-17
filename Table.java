@@ -4,11 +4,10 @@ public class Table<T extends Contact> {
     private String title; // Label for the table
 
     @SuppressWarnings("unchecked")
-    public Table<T> clone()
-    {
+    public Table<T> clone() {
         Table<T> newTable = new Table<T>();
         for (Node<T> i = head; i != null; i = i.next) {
-            newTable.insert((T)i.data.clone());
+            newTable.insert((T) i.data.clone());
         }
         return newTable;
     }
@@ -22,8 +21,7 @@ public class Table<T extends Contact> {
                 if (i.data.equals(j.data)) {
                     if (i == newTable.head) {
                         newTable.head = i.next;
-                    }
-                    else {
+                    } else {
                         prev.next = i.next;
                         i = prev;
                     }
@@ -34,21 +32,18 @@ public class Table<T extends Contact> {
         return newTable;
     }
 
-
     // Adds a new record to the end of the this table.
     public void insert(T data) {
         if (head == null) {
             head = new Node<T>(data, null);
             tail = head;
-        }
-        else {
+        } else {
             tail.next = new Node<T>(data, null);
             tail = tail.next;
         }
     }
 
-    public String toString()
-    {
+    public String toString() {
         String res = "";
         for (Node<T> i = head; i != null; i = i.next) {
             res += i.data;
@@ -65,7 +60,7 @@ public class Table<T extends Contact> {
         boolean keep = false;
         for (Node<T> i = this.head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
-                newTable.insert((T)i.data.clone());
+                newTable.insert((T) i.data.clone());
             }
         }
         for (Node<T> i = table.head; i != null; i = i.next) {
@@ -89,8 +84,7 @@ public class Table<T extends Contact> {
                 if (i == this.head) {
                     this.head = i.next;
                     break;
-                }
-                else {
+                } else {
                     prev.next = i.next;
                     i = prev;
                     break;
@@ -107,7 +101,7 @@ public class Table<T extends Contact> {
         Table<T> newTable = new Table<T>();
         for (Node<T> i = head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
-                newTable.insert((T)i.data.clone());
+                newTable.insert((T) i.data.clone());
             }
         }
         return newTable;
@@ -118,7 +112,6 @@ public class Table<T extends Contact> {
     @SuppressWarnings("unchecked")
     public Table<T> union(Table<T> table) {
         Table<T> newTable = this.clone();
-        Node<T> prev = null;
         for (Node<T> j = table.head; j != null; j = j.next) {
             boolean insert = true;
             for (Node<T> i = newTable.head; i != null; i = i.next) {
@@ -127,7 +120,7 @@ public class Table<T extends Contact> {
                 }
             }
             if (insert) {
-                newTable.insert((T)j.data.clone());
+                newTable.insert((T) j.data.clone());
             }
         }
         return newTable;

@@ -82,14 +82,19 @@ public class ContactList {
         attr = sysin.nextLine();
         System.out.print("Enter value >");
         val = sysin.nextLine();
-        if (group == 1) {
-            printBanner(1, 2);
-            System.out.println(table1.intersect(attr, val, table2));
-            printBanner(1, 2);
-        } else { /* group == 2 */
-            printBanner(2, 1);
-            System.out.println(table2.intersect(attr, val, table1));
-            printBanner(2, 1);
+        try {
+            if (group == 1) {
+                printBanner(1, 2);
+                System.out.println(table1.intersect(attr, val, table2));
+                printBanner(1, 2);
+            } else { /* group == 2 */
+                printBanner(2, 1);
+                System.out.println(table2.intersect(attr, val, table1));
+                printBanner(2, 1);
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return;
         }
     }
 
@@ -138,14 +143,19 @@ public class ContactList {
         attr = sysin.nextLine();
         System.out.print("Enter value >");
         val = sysin.nextLine();
-        if (group == 1) {
-            printBanner(1);
-            System.out.println(table1.select(attr, val));
-            printBanner(1);
-        } else { /* group == 2 */
-            printBanner(2);
-            System.out.println(table1.select(attr, val));
-            printBanner(2);
+        try {
+            if (group == 1) {
+                printBanner(1);
+                System.out.println(table1.select(attr, val));
+                printBanner(1);
+            } else { /* group == 2 */
+                printBanner(2);
+                System.out.println(table1.select(attr, val));
+                printBanner(2);
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return;
         }
     }
 
@@ -156,8 +166,13 @@ public class ContactList {
         attr = sysin.nextLine();
         System.out.print("Enter value >");
         val = sysin.nextLine();
-        table1.remove(attr, val);
-        table2.remove(attr, val);
+        try {
+            table1.remove(attr, val);
+            table2.remove(attr, val);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
     }
 
     private void handlePrintBothTables() {
