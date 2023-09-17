@@ -96,11 +96,9 @@ public class PersonalContact extends Contact {
     @Override
     public void setValue(String attribute, String value) throws IllegalArgumentException {
         attribute = attribute.toLowerCase();
-        value = value.toLowerCase();
         try {
             super.setValue(attribute, value);
         } catch (IllegalArgumentException e) {
-            value = value.toLowerCase();
             switch (attribute) {
                 case "label":
                     label = Label.fromString(value);

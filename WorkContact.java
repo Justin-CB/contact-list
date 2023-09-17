@@ -106,20 +106,20 @@ public class WorkContact extends Contact {
     @Override
     public boolean hasValue(String attribute, String value) throws IllegalArgumentException {
         attribute = attribute.toLowerCase();
-        value = attribute.toLowerCase();
+        value = value.toLowerCase();
         boolean containsValue = false;
         try {
             containsValue = super.hasValue(attribute, value);
         } catch (IllegalArgumentException e) {
             switch (attribute) {
                 case "title":
-                    containsValue = title.equals(value);
+                    containsValue = title.toLowerCase().equals(value);
                     break;
                 case "company":
-                    containsValue = company.equals(value);
+                    containsValue = company.toLowerCase().equals(value);
                     break;
                 case "department":
-                    containsValue = department.equals(value);
+                    containsValue = department.toLowerCase().equals(value);
                     break;
                 default:
                     throw e;
@@ -137,7 +137,6 @@ public class WorkContact extends Contact {
     @Override
     public void setValue(String attribute, String value) throws IllegalArgumentException {
         attribute = attribute.toLowerCase();
-        value = value.toLowerCase();
         try {
             super.setValue(attribute, value);
         } catch (IllegalArgumentException e) {

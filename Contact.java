@@ -14,8 +14,7 @@ public class Contact implements ContactInterface, Cloneable {
 
     /** The valid attributes of a contact */
     private final static String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city",
-            "state",
-            "zip" };
+            "state", "zip" };
 
     /**
      * Class that reperesents a simple contact
@@ -118,22 +117,22 @@ public class Contact implements ContactInterface, Cloneable {
                 valueExists = person.getStatus() == Status.fromString(value);
                 break;
             case "first":
-                valueExists = person.getFirst().equals(value);
+                valueExists = person.getFirst().toLowerCase().equals(value);
                 break;
             case "last":
-                valueExists = person.getLast().equals(value);
+                valueExists = person.getLast().toLowerCase().equals(value);
                 break;
             case "email":
-                valueExists = email.equals(value);
+                valueExists = email.toLowerCase().equals(value);
                 break;
             case "street":
-                valueExists = address.getStreetAddress().equals(value);
+                valueExists = address.getStreetAddress().toLowerCase().equals(value);
                 break;
             case "city":
-                valueExists = address.getCity().equals(value);
+                valueExists = address.getCity().toLowerCase().equals(value);
                 break;
             case "state":
-                valueExists = address.getState().equals(value);
+                valueExists = address.getState().toLowerCase().equals(value);
                 break;
             case "zip":
                 try {
@@ -157,7 +156,6 @@ public class Contact implements ContactInterface, Cloneable {
     @Override
     public void setValue(String attribute, String value) throws IllegalArgumentException {
         attribute = attribute.toLowerCase();
-        value = attribute.toLowerCase();
         switch (attribute) {
             case "phone":
                 try {
