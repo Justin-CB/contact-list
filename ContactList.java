@@ -1,3 +1,8 @@
+/**
+ * @author Justin Bester and Kevin McCall
+ * @version 1.0
+ * Class containing the main logic of the ContactList program
+ */
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -5,12 +10,20 @@ import java.lang.invoke.StringConcatFactory;
 import java.util.InputMismatchException;
 
 public class ContactList {
+    /** first table */
     private Table<Contact> table1;
+    /** second table */
     private Table<Contact> table2;
+    /** Scanner for keyboard input */
     private Scanner sysin;
+    /** Scanner for first file */
     private Scanner file1;
+    /** Scanner for second file */
     private Scanner file2;
 
+    /**
+     * Constructor for ContactList
+     */
     public ContactList() {
         File file;
         sysin = new Scanner(System.in);
@@ -34,6 +47,9 @@ public class ContactList {
         table2 = new Table<Contact>("Contact List 2");
     }
 
+    /**
+     * Contains the main logic for the program
+     */
     public void go() {
         int choice;
         readInput(file1, table1);
@@ -69,6 +85,9 @@ public class ContactList {
         }
     }
 
+    /**
+     * Holds the logic for doing the intersect operator from user input
+     */
     private void handleIntersect() {
         int group;
         String attr;
@@ -94,6 +113,9 @@ public class ContactList {
         }
     }
 
+    /**
+     * Holds the logic for doing the difference operator from user input
+     */
     private void handleDifference() {
         int group;
         group = getGroup("Enter Contact List");
@@ -106,6 +128,9 @@ public class ContactList {
         }
     }
 
+    /**
+     * Holds the logic for doing the union operator from user input
+     */
     private void handleUnion() {
         int group;
         group = getGroup("Enter Contact List");
@@ -118,6 +143,9 @@ public class ContactList {
         }
     }
 
+    /**
+     * Holds the logic for doing the select operator from user input
+     */
     private void handleSelect() {
         int group;
         String attr;
@@ -135,7 +163,7 @@ public class ContactList {
             if (group == 1) {
                 System.out.println(table1.select(attr, val));
             } else { /* group == 2 */
-                System.out.println(table1.select(attr, val));
+                System.out.println(table2.select(attr, val));
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -143,6 +171,9 @@ public class ContactList {
         }
     }
 
+    /**
+     * Holds the logic for doing the remove operator from user input
+     */
     private void handleRemove() {
         String attr;
         String val;
@@ -159,12 +190,19 @@ public class ContactList {
         }
     }
 
+    /**
+     * prints both tables
+     */
     private void handlePrintBothTables() {
         System.out.print(table1);
         System.out.println();
         System.out.print(table2);
     }
 
+    /**
+     * helper method to read in an int for choice menus
+     * @return the choice the user entered
+     */
     private int readIntChoice() {
         /* Is invalid for choice menus */
         int choice = -1;
@@ -176,11 +214,21 @@ public class ContactList {
         return choice;
     }
 
+    /**
+     * Get the table number (without checking if it's correct) from the user
+     * based on a prompt
+     * @param prompt The prompt to give the user for the table number
+     * @return The group the user entred
+     */
     private int getGroup(String prompt) {
         System.out.printf("%s >", prompt);
         return readIntChoice();
     }
 
+    /**
+     * prints out the main menu and returns the choice the user chuses
+     * @return the number the user enters
+     */
     private int menu() {
         System.out.println();
         System.out.println("Please make choice:");
@@ -195,6 +243,12 @@ public class ContactList {
         return readIntChoice();
     }
 
+    /**
+     * Helper method to determine if a file is a personal or work contact
+     * and call the correct method to read the rest of the file into the table
+     * @param in the Scanner for the input file
+     * @param table the table to read into
+     */
     private void readInput(Scanner in, Table<Contact> table) {
         String line = in.nextLine();
         switch (line.charAt(0)) {
@@ -210,6 +264,11 @@ public class ContactList {
         }
     }
 
+    /**
+     * Helper method to read personal contacts into a table
+     * @param in the Scanner for the input file
+     * @param table the table to read into
+     */
     private void readPersonal(Scanner in, Table<Contact> table) {
         String line[];
         while (in.hasNextLine()) {
@@ -223,6 +282,11 @@ public class ContactList {
         }
     }
 
+    /**
+     * Helper method to read work contacts into a table
+     * @param in the Scanner for the input file
+     * @param table the table to read into
+     */
     private void readWork(Scanner in, Table<Contact> table) {
         String line[];
         while (in.hasNextLine()) {
@@ -236,6 +300,11 @@ public class ContactList {
         }
     }
 
+    /**
+     * Helper method to read a line of CSV from an input file
+     * @param in The Scanner to read from
+     * @return A string array of the values split by the comma separation
+     */
     private String[] readCSVLine(Scanner in) {
         String line[] = in.nextLine().split(",");
         String res[];
@@ -256,6 +325,10 @@ public class ContactList {
         return res;
     }
 
+    /**
+     * The main method
+     * @param args the command-line arguments
+     */
     public static void main(String args[]) {
         new ContactList().go();
     }
