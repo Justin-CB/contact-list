@@ -37,32 +37,30 @@ public class PersonalInfo implements Cloneable {
         this.status = Status.fromString(status);
     }
 
-    public String toString()
-    {
-        return String.format("%s, %s: (%s)",first,last,status.toString());
+    public String toString() {
+        return String.format("%s, %s: (%s)", first, last, status.toString());
     }
 
-    public PersonalInfo clone()
-    {
+    public PersonalInfo clone() {
         try {
-            return (PersonalInfo)super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+            return (PersonalInfo) super.clone();
+        } catch (CloneNotSupportedException e) {
             /* Shouldn't happen */
             return null;
         }
     }
 
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         boolean res = (this == o);
         if (!res && o instanceof PersonalInfo) {
-            PersonalInfo other = (PersonalInfo)o;
-            res = (
-                this.first.equals(other.first) &&
-                this.last.equals(other.last) &&
-                this.status == other.status
-               );
+            PersonalInfo other = (PersonalInfo) o;
+            // status is ignored because it is not included in the personal contact
+            // list.
+            res = (this.first.equals(other.first) &&
+                    this.last.equals(other.last) &&
+                    (this.status == Status.NA ||
+                            other.status == Status.NA ||
+                            this.status == other.status));
         }
         return res;
     }
