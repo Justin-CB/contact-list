@@ -112,6 +112,33 @@ public class ContactList {
                         System.err.println("Invalid group");
                         break;
                     }
+                    /* Clear newline from input */
+                    sysin.nextLine();
+                    System.out.print("Enter attribute >");
+                    attr = sysin.nextLine();
+                    System.out.print("Enter value >");
+                    val = sysin.nextLine();
+                    if (group == 1) {
+                        printBanner(1);
+                        System.out.println(table1.select(attr, val));
+                        printBanner(1);
+                    }
+                    else { /* group == 2 */
+                        printBanner(2);
+                        System.out.println(table1.select(attr, val));
+                        printBanner(2);
+                    }
+                    break;
+                case 5:
+                    /* Clear newline from input */
+                    sysin.nextLine();
+                    System.out.print("Enter attribute >");
+                    attr = sysin.nextLine();
+                    System.out.print("Enter value >");
+                    val = sysin.nextLine();
+                    table1.remove(attr, val);
+                    table2.remove(attr, val);
+                    break;
                 case 6:
                     printBanner(1);
                     System.out.print(table1);
