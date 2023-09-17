@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.invoke.StringConcatFactory;
 import java.util.InputMismatchException;
 
 public class ContactList {
@@ -35,9 +36,6 @@ public class ContactList {
 
     public void go() {
         int choice;
-        int group;
-        String attr;
-        String val;
         readInput(file1, table1);
         readInput(file2, table2);
         System.out.println("Welcome to database display");
@@ -48,101 +46,128 @@ public class ContactList {
                     System.out.println("Goodbye");
                     System.exit(0);
                 case 1:
-                    group = getGroup("Enter Group");
-                    if (group != 1 && group != 2) {
-                        System.err.println("Invalid group");
-                        break;
-                    }
-                    /* Clear newline from input */
-                    sysin.nextLine();
-                    System.out.print("Enter attribute >");
-                    attr = sysin.nextLine();
-                    System.out.print("Enter value >");
-                    val = sysin.nextLine();
-                    if (group == 1) {
-                        printBanner(1, 2);
-                        System.out.println(table1.intersect(attr, val, table2));
-                        printBanner(1, 2);
-                    } else { /* group == 2 */
-                        printBanner(2, 1);
-                        System.out.println(table2.intersect(attr, val, table1));
-                        printBanner(2, 1);
-                    }
+                    handleIntersect();
                     break;
                 case 2:
-                    group = getGroup("Enter Contact List");
-                    if (group == 1) {
-                        printBanner(1, 2);
-                        System.out.println(table1.difference(table2));
-                        printBanner(1, 2);
-                    } else if (group == 2) {
-                        printBanner(2, 1);
-                        System.out.println(table2.difference(table1));
-                        printBanner(2, 1);
-                    } else {
-                        System.err.println("Invalid List Number");
-                    }
+                    handleDifference();
                     break;
                 case 3:
-                    group = getGroup("Enter Contact List");
-                    if (group == 1) {
-                        printBanner(1, 2);
-                        System.out.println(table1.union(table2));
-                        printBanner(1, 2);
-                    } else if (group == 2) {
-                        printBanner(2, 1);
-                        System.out.println(table2.union(table1));
-                        printBanner(2, 1);
-                    } else {
-                        System.err.println("Invalid List Number");
-                    }
+                    handleUnion();
                     break;
                 case 4:
-                    group = getGroup("Enter table (1/2)");
-                    if (group != 1 && group != 2) {
-                        System.err.println("Invalid group");
-                        break;
-                    }
-                    /* Clear newline from input */
-                    sysin.nextLine();
-                    System.out.print("Enter attribute >");
-                    attr = sysin.nextLine();
-                    System.out.print("Enter value >");
-                    val = sysin.nextLine();
-                    if (group == 1) {
-                        printBanner(1);
-                        System.out.println(table1.select(attr, val));
-                        printBanner(1);
-                    } else { /* group == 2 */
-                        printBanner(2);
-                        System.out.println(table1.select(attr, val));
-                        printBanner(2);
-                    }
+                    handleSelect();
                     break;
                 case 5:
-                    /* Clear newline from input */
-                    sysin.nextLine();
-                    System.out.print("Enter attribute >");
-                    attr = sysin.nextLine();
-                    System.out.print("Enter value >");
-                    val = sysin.nextLine();
-                    table1.remove(attr, val);
-                    table2.remove(attr, val);
+                    handleRemove();
                     break;
                 case 6:
-                    printBanner(1);
-                    System.out.print(table1);
-                    printBanner(1);
-                    System.out.println();
-                    printBanner(2);
-                    System.out.print(table2);
-                    printBanner(2);
+                    handlePrintBothTables();
                     break;
                 default:
                     System.err.println("Invalid choice");
-
             }
         }
+    }
+
+    private void handleIntersect() {
+        int group;
+        String attr;
+        String val;
+        group = getGroup("Enter Group");
+        if (group != 1 && group != 2) {
+            System.err.println("Invalid group");
+            return;
+        }
+        System.out.print("Enter attribute >");
+        attr = sysin.nextLine();
+        System.out.print("Enter value >");
+        val = sysin.nextLine();
+        if (group == 1) {
+            printBanner(1, 2);
+            System.out.println(table1.intersect(attr, val, table2));
+            printBanner(1, 2);
+        } else { /* group == 2 */
+            printBanner(2, 1);
+            System.out.println(table2.intersect(attr, val, table1));
+            printBanner(2, 1);
+        }
+    }
+
+    private void handleDifference() {
+        int group;
+        group = getGroup("Enter Contact List");
+        if (group == 1) {
+            printBanner(1, 2);
+            System.out.println(table1.difference(table2));
+            printBanner(1, 2);
+        } else if (group == 2) {
+            printBanner(2, 1);
+            System.out.println(table2.difference(table1));
+            printBanner(2, 1);
+        } else {
+            System.err.println("Invalid List Number");
+        }
+    }
+
+    private void handleUnion() {
+        int group;
+        group = getGroup("Enter Contact List");
+        if (group == 1) {
+            printBanner(1, 2);
+            System.out.println(table1.union(table2));
+            printBanner(1, 2);
+        } else if (group == 2) {
+            printBanner(2, 1);
+            System.out.println(table2.union(table1));
+            printBanner(2, 1);
+        } else {
+            System.err.println("Invalid List Number");
+        }
+    }
+
+    private void handleSelect() {
+        int group;
+        String attr;
+        String val;
+        group = getGroup("Enter table (1/2)");
+        if (group != 1 && group != 2) {
+            System.err.println("Invalid group");
+            return;
+        }
+        System.out.print("Enter attribute >");
+        attr = sysin.nextLine();
+        System.out.print("Enter value >");
+        val = sysin.nextLine();
+        if (group == 1) {
+            printBanner(1);
+            System.out.println(table1.select(attr, val));
+            printBanner(1);
+        } else { /* group == 2 */
+            printBanner(2);
+            System.out.println(table1.select(attr, val));
+            printBanner(2);
+        }
+    }
+
+    private void handleRemove() {
+        String attr;
+        String val;
+        System.out.print("Enter attribute >");
+        attr = sysin.nextLine();
+        System.out.print("Enter value >");
+        val = sysin.nextLine();
+        table1.remove(attr, val);
+        table2.remove(attr, val);
+    }
+
+    private void handlePrintBothTables() {
+        printBanner(1);
+        System.out.print(table1);
+        printBanner(1);
+        System.out.println();
+        printBanner(2);
+        System.out.print(table2);
+        printBanner(2);
     }
 
     private void printBanner(int grp) {
@@ -158,8 +183,8 @@ public class ContactList {
         /* Is invalid for choice menus */
         int choice = -1;
         try {
-            choice = sysin.nextInt();
-        } catch (InputMismatchException e) {
+            choice = Integer.parseInt(sysin.nextLine());
+        } catch (NumberFormatException e) {
             /* Already set to -1 */
         }
         return choice;
