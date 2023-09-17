@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 public class ContactList {
     private Table<Contact> table1;
     private Table<Contact> table2;
@@ -37,13 +38,40 @@ public class ContactList {
 
     public void go()
     {
-        intchoice;
+        int choice;
         readInput(file1, table1);
         readInput(file2, table2);
         System.out.println("Welcome to database display");
         while (true) {
             choice = menu();
+            switch (choice) {
+                case 0:
+                    System.out.println("Goodbye");
+                    System.exit(0);
+                case 1:
+                    
+            }
         }
+    }
+
+    private int readIntChoice()
+    {
+        /* Is invalid for choice menus */
+        int choice = -1;
+        try {
+            choice = sysin.nextInt();
+        }
+        catch (InputMismatchException e) {
+            /* Already set to -1 */
+        }
+        return choice;
+    }
+
+
+    private int get_group(String prompt)
+    {
+        System.out.printf("%s >", prompt);
+        return readIntChoice();
     }
 
     private int menu()
@@ -57,7 +85,8 @@ public class ContactList {
         System.out.println("\t4) Select");
         System.out.println("\t5) Remove");
         System.out.println("\t6) Print both tables");
-        /* Get & return int value */
+        System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ");
+        return readIntChoice();
     }
 
     private void readInput(Scanner in, Table<Contact> table)
