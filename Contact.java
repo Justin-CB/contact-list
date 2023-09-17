@@ -1,16 +1,38 @@
+/**
+ * @author Justin Bester and Kevin McCall
+ * @version 1.0
+ * 
+ *          Contact class used for representing info in a table for the
+ *          ContactList Program.
+ */
+
 public class Contact implements ContactInterface, Cloneable {
     private PersonalInfo person; // Personal information
     private Address address; // Current address
     private String phone; // Phone number
     private String email; // Email
 
-    // private values = new String[] {"phone", "status", "first", "last", "email",
-    // "street", "city", "state", "zip", "title", "department", "company", "label"};
-    private String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city", "state",
+    /** The valid attributes of a contact */
+    private final static String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city",
+            "state",
             "zip" };
 
-    public Contact(String first, String last, String status, String street, String city, String state, String zip, String phone, String email) throws IllegalStateException
-    {
+    /**
+     * Class that reperesents a simple contact
+     * 
+     * @param first  First name of a person
+     * @param last   last name of a person
+     * @param status marrital status of a person
+     * @param street street address of a person
+     * @param city   resident city of a person
+     * @param state  resident state of a person
+     * @param zip    zip code. *Must be 5 digits long*
+     * @param phone  phone number *Must be exactly MAX_PHONE_NUM digits long*
+     * @param email  email string. No checks are required.
+     * @throws IllegalStateException
+     */
+    public Contact(String first, String last, String status, String street, String city, String state, String zip,
+            String phone, String email) throws IllegalStateException {
         this.person = new PersonalInfo(first, last, status);
         this.address = new Address(zip, street, city, state);
         this.checkPhone(phone);
@@ -18,41 +40,53 @@ public class Contact implements ContactInterface, Cloneable {
         this.email = email;
     }
 
-    public Contact clone()
-    {
+    /**
+     * Creates a deep clone of the current Contact.
+     * 
+     * @return a deep copy of the Contact.
+     */
+    public Contact clone() {
         try {
-            Contact copy = (Contact)super.clone();
+            Contact copy = (Contact) super.clone();
             copy.person = person.clone();
             copy.address = address.clone();
             return copy;
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             /* Shouldn't happen */
             return null;
         }
     }
 
-    public String toString()
-    {
+    /**
+     * String representation of a Contact
+     * 
+     * @return String representation
+     */
+    public String toString() {
         return String.format("\t%s:\tPhone: %s\n%s", person.toString(), phone, address.toString());
     }
 
+    /**
+     * @param o other object to compare to
+     * @return boolean whether or not this contact equals another contact.
+     */
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         boolean res = (this == o);
         if (!res && o instanceof Contact) {
-            Contact other = (Contact)o;
-            res = (
-                other.person.equals(this.person) &&
-                other.address.equals(this.address) &&
-                other.phone.equals(this.phone) &&
-                other.email.equals(this.email)
-            );
+            Contact other = (Contact) o;
+            res = (other.person.equals(this.person) &&
+                    other.address.equals(this.address) &&
+                    other.phone.equals(this.phone) &&
+                    other.email.equals(this.email));
         }
         return res;
     }
 
+    /**
+     * @param attribute the string name of a field on this Contact class.
+     * @return boolean whether or not the field exists.
+     */
     @Override
     public boolean exists(String attribute) {
         for (String attr : attrs) {
@@ -63,6 +97,12 @@ public class Contact implements ContactInterface, Cloneable {
         return false;
     }
 
+    /**
+     * @param attribute the string name of a field on this Contact class.
+     * @param value     a specific value for that attribute you want to check.
+     * @return boolean whether or not the field exists with the current value.
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean hasValue(String attribute, String value) throws IllegalArgumentException {
         value = value.toLowerCase();
@@ -105,6 +145,12 @@ public class Contact implements ContactInterface, Cloneable {
         return valueExists;
     }
 
+    /**
+     * @param attribute the string name of a field on this Contact class.
+     * @param value     The value you want to set the attribute to
+     * @throws IllegalArgumentException throws if attribute is not a field of the
+     *                                  contact.
+     */
     @Override
     public void setValue(String attribute, String value) throws IllegalArgumentException {
         switch (attribute) {
@@ -112,8 +158,7 @@ public class Contact implements ContactInterface, Cloneable {
                 try {
                     this.checkPhone(value);
                     phone = value;
-                }
-                catch (IllegalStateException e) {
+                } catch (IllegalStateException e) {
                     throw new IllegalArgumentException(e.getMessage());
                 }
                 break;
@@ -150,21 +195,58 @@ public class Contact implements ContactInterface, Cloneable {
     }
 }
 
-class Address implements Cloneable{
+class Address implements Cloneable {
     private int zipCode;
     private String streetAddress;
     private String city;
     private String state;
 
-    public String toString()
-    {
+    /**
+     * Creates an Address.
+     * 
+     * @param zipCode       Zip code must be 5 digits long.
+     * @param streetAddress the street address.
+     * @param city          the city.
+     * @param state         the state.
+     */
+    Address(String zipCode, String streetAddress, String city, String state) {
+        if (zipCode.length() != 5) {
+            throw new IllegalStateException("Zip Code length must be 5");
+        }
+        try {
+            this.zipCode = Integer.parseInt(zipCode);
+        } catch (NumberFormatException e) {
+            throw new IllegalStateException(e.getMessage());
+        }
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+    }
+
+    /**
+     * String representatino of an Address
+     * 
+     * @return the string representation of an address
+     */
+    @Override
+    public String toString() {
         return String.format("\t%s\n\t%s, %s %05d", streetAddress, city, state, zipCode);
     }
 
+    /**
+     * getter for zipCode
+     * 
+     * @return zipdocde
+     */
     public int getZipCode() {
         return zipCode;
     }
 
+    /**
+     * setter for zipCode.
+     * 
+     * @param zipCode zipCode must be less than 5 digits long
+     */
     public void setZipCode(int zipCode) {
         if (zipCode > 99999) {
             throw new IllegalArgumentException("Zip code must have at most 5 non-zero digits");
@@ -172,70 +254,92 @@ class Address implements Cloneable{
         this.zipCode = zipCode;
     }
 
+    /**
+     * getter for streetAddress
+     * 
+     * @return the streed address.
+     */
     public String getStreetAddress() {
         return streetAddress;
     }
 
+    /**
+     * setter for the street address
+     * 
+     * @param streetAddress the street address.
+     */
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
 
+    /**
+     * getter for the city
+     * 
+     * @return the city name.
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * setter for the city
+     * 
+     * @param city the city name
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * getter for the state
+     * 
+     * @return the state
+     */
     public String getState() {
         return state;
     }
 
+    /**
+     * setter for the state
+     * 
+     * @param state the new state name.
+     */
     public void setState(String state) {
         this.state = state;
     }
 
-    public Address clone()
-    {
+    /**
+     * deep clones the current address
+     * 
+     * @return a deep copy of the current Address
+     */
+    @Override
+    public Address clone() {
         try {
-            return (Address)super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+            return (Address) super.clone();
+        } catch (CloneNotSupportedException e) {
             /* This shouldn't happen */
             return null;
         }
     }
 
+    /**
+     * compares two addresses
+     * 
+     * @param o the other object to be compared to.
+     * 
+     * @return boolean whether the two objects are equivalent.
+     */
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         boolean res = (this == o);
         if (!res && o instanceof Address) {
-            Address other = (Address)o;
-            res = (
-                this.zipCode == other.zipCode &&
-                this.streetAddress.equals(other.streetAddress) &&
-                this.city.equals(other.city) &&
-                this.state.equals(other.state)
-            );
+            Address other = (Address) o;
+            res = (this.zipCode == other.zipCode &&
+                    this.streetAddress.equals(other.streetAddress) &&
+                    this.city.equals(other.city) &&
+                    this.state.equals(other.state));
         }
         return res;
-    }
-
-
-    Address(String zipCode, String streetAddress, String city, String state) {
-        if (zipCode.length() != 5) {
-            throw new IllegalStateException("Zip Code length must be 5");
-        }
-        try {
-            this.zipCode = Integer.parseInt(zipCode);
-        }
-        catch (NumberFormatException e) {
-            throw new IllegalStateException(e.getMessage());
-        }
-        this.streetAddress = streetAddress;
-        this.city = city;
-        this.state = state;
     }
 }
