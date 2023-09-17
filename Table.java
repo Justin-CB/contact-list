@@ -3,9 +3,19 @@ public class Table<T extends Contact> {
     private Node<T> tail; // Last record in the table
     private String title; // Label for the table
 
+    public <T> Table(String title)
+    {
+        this.title = title;
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
+
     @SuppressWarnings("unchecked")
     public Table<T> clone() {
-        Table<T> newTable = new Table<T>();
+        Table<T> newTable = new Table<T>(this.title);
         for (Node<T> i = head; i != null; i = i.next) {
             newTable.insert((T) i.data.clone());
         }
@@ -29,6 +39,7 @@ public class Table<T extends Contact> {
             }
             prev = i;
         }
+        newTable.title = this.title + ", " + table.title;
         return newTable;
     }
 
@@ -44,19 +55,20 @@ public class Table<T extends Contact> {
     }
 
     public String toString() {
-        String res = "";
+        String res = "===========================" + this.title + "===========================";
         for (Node<T> i = head; i != null; i = i.next) {
             res += i.data;
             res += "\n--------------------------------------------------------------\n";
         }
+        res += "===========================" + this.title + "===========================";
         return res;
     }
 
     // Creates a new table comprised of nodes having a value for a specific
     // attribute, created from both tables.
     @SuppressWarnings("unchecked")
-    public Table<T> intersect(String attribute, String value, Table<T> table) {
-        Table<T> newTable = new Table<T>();
+    public Table<T> intersect(String attribute, String value, Table<T> table) throws IllegalArgumentException {
+        Table<T> newTable = new Table<T>(this.title + ", " + table.title);
         boolean keep = false;
         for (Node<T> i = this.head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
@@ -70,14 +82,14 @@ public class Table<T extends Contact> {
             }
         }
         if (!keep) {
-            newTable = new Table<T>();
+            newTable = new Table<T>(this.title + ", " + table.title);
         }
         return newTable;
 
     }
 
     // Removes the first node matching whose attribute matches value.
-    public void remove(String attribute, String value) {
+    public void remove(String attribute, String value) throws IllegalArgumentException {
         Node<T> prev = null;
         for (Node<T> i = this.head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
@@ -97,8 +109,8 @@ public class Table<T extends Contact> {
     // Creates a new table comprised of nodes having a value for a specific
     // attribute.
     @SuppressWarnings("unchecked")
-    public Table<T> select(String attribute, String value) {
-        Table<T> newTable = new Table<T>();
+    public Table<T> select(String attribute, String value) throws IllegalArgumentException {
+        Table<T> newTable = new Table<T>(this.title);
         for (Node<T> i = head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
                 newTable.insert((T) i.data.clone());
@@ -123,6 +135,7 @@ public class Table<T extends Contact> {
                 newTable.insert((T) j.data.clone());
             }
         }
+        newTable.title = this.title + ", " + table.title;
         return newTable;
     }
 }
