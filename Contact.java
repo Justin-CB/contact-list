@@ -90,6 +90,7 @@ public class Contact implements ContactInterface, Cloneable {
      */
     @Override
     public boolean exists(String attribute) {
+        attribute = attribute.toLowerCase();
         for (String attr : attrs) {
             if (attribute.equals(attr)) {
                 return true;
@@ -107,6 +108,7 @@ public class Contact implements ContactInterface, Cloneable {
     @Override
     public boolean hasValue(String attribute, String value) throws IllegalArgumentException {
         value = value.toLowerCase();
+        attribute = attribute.toLowerCase();
         boolean valueExists = false;
         switch (attribute) {
             case "phone":
@@ -154,6 +156,8 @@ public class Contact implements ContactInterface, Cloneable {
      */
     @Override
     public void setValue(String attribute, String value) throws IllegalArgumentException {
+        attribute = attribute.toLowerCase();
+        value = attribute.toLowerCase();
         switch (attribute) {
             case "phone":
                 try {
