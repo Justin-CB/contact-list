@@ -20,16 +20,17 @@ public class Contact implements ContactInterface, Cloneable {
     /**
      * Class that reperesents a simple contact
      * 
-     * @param first  First name of a person
-     * @param last   last name of a person
-     * @param status marrital status of a person
-     * @param street street address of a person
-     * @param city   resident city of a person
-     * @param state  resident state of a person
-     * @param zip    zip code. *Must be 5 digits long*
-     * @param phone  phone number *Must be exactly MAX_PHONE_NUM digits long*
-     * @param email  email string. No checks are required.
-     * @throws IllegalStateException
+     * @param first  contact's First name
+     * @param last   contact's last name
+     * @param status contact's marrital status
+     * @param street contact's street address
+     * @param city   contact's resident city
+     * @param state  contact's resident state
+     * @param zip    contact's zip code. *Must be 5 digits long*
+     * @param phone  contact's phone number *Must be exactly MAX_PHONE_NUM digits
+     *               long*
+     * @param email  contact's email string. No checks are required.
+     * @throws IllegalStateException If zipcode or phone are not formatted correctly
      */
     public Contact(String first, String last, String status, String street, String city, String state, String zip,
             String phone, String email) throws IllegalStateException {
