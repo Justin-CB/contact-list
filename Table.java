@@ -55,7 +55,7 @@ public class Table<T extends Contact> {
     }
 
     public String toString() {
-        String res = "===========================" + this.title + "===========================";
+        String res = "===========================" + this.title + "===========================\n";
         for (Node<T> i = head; i != null; i = i.next) {
             res += i.data;
             res += "\n--------------------------------------------------------------\n";
