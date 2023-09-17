@@ -1,3 +1,9 @@
+/**
+ * @author Justin Bester and Kevin McCall
+ * @version 1.0
+ * 
+ *          Marital status of a contact
+ */
 public enum Status {
     MARRIED,
     SINGLE,
@@ -23,12 +29,17 @@ public enum Status {
         }
     }
 
+    /**
+     * returns a status from a string
+     * 
+     * @param str non-case sensitive string
+     * @return a Status enum corresponding to str or Status.NA
+     */
     public static Status fromString(String str) {
         Status res;
         try {
             res = Status.valueOf(str.toUpperCase());
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             res = Status.NA;
         }
         return res;
