@@ -14,7 +14,7 @@ public class Table<T extends Contact> {
     }
 
     // Creates a new table comprised of nodes in this table, but not in table.
-    Table<T> difference(Table<T> table) {
+    public Table<T> difference(Table<T> table) {
         Table<T> newTable = this.clone();
         Node<T> prev = null;
         for (Node<T> i = newTable.head; i != null; i = i.next) {
@@ -36,7 +36,7 @@ public class Table<T extends Contact> {
 
 
     // Adds a new record to the end of the this table.
-    void insert(T data) {
+    public void insert(T data) {
         if (head == null) {
             head = new Node<T>(data, null);
             tail = head;
@@ -47,10 +47,20 @@ public class Table<T extends Contact> {
         }
     }
 
+    public String toString()
+    {
+        String res = "";
+        for (Node<T> i = head; i != null; i = i.next) {
+            res += i.data;
+            res += "--------------------------------------------------------------";
+        }
+        return res;
+    }
+
     // Creates a new table comprised of nodes having a value for a specific
     // attribute, created from both tables.
     @SuppressWarnings("unchecked")
-    Table<T> intersect(String attribute, String value, Table<T> table) {
+    public Table<T> intersect(String attribute, String value, Table<T> table) {
         Table<T> newTable = new Table<T>();
         boolean keep = false;
         for (Node<T> i = this.head; i != null; i = i.next) {
@@ -72,7 +82,7 @@ public class Table<T extends Contact> {
     }
 
     // Removes the first node matching whose attribute matches value.
-    void remove(String attribute, String value) {
+    public void remove(String attribute, String value) {
         Node<T> prev = null;
         for (Node<T> i = this.head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
@@ -93,7 +103,7 @@ public class Table<T extends Contact> {
     // Creates a new table comprised of nodes having a value for a specific
     // attribute.
     @SuppressWarnings("unchecked")
-    Table<T> select(String attribute, String value) {
+    public Table<T> select(String attribute, String value) {
         Table<T> newTable = new Table<T>();
         for (Node<T> i = head; i != null; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
@@ -106,7 +116,7 @@ public class Table<T extends Contact> {
     // Creates a new table comprised of nodes that occur in either table(s). No
     // duplicates allowed.
     @SuppressWarnings("unchecked")
-    Table<T> union(Table<T> table) {
+    public Table<T> union(Table<T> table) {
         Table<T> newTable = this.clone();
         Node<T> prev = null;
         for (Node<T> j = table.head; j != null; j = j.next) {
