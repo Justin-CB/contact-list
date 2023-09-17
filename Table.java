@@ -52,7 +52,7 @@ public class Table<T extends Contact> {
         String res = "";
         for (Node<T> i = head; i != null; i = i.next) {
             res += i.data;
-            res += "\n--------------------------------------------------------------";
+            res += "\n--------------------------------------------------------------\n";
         }
         return res;
     }

@@ -39,6 +39,10 @@ public class ContactList {
     public void go()
     {
         int choice;
+        int group;
+        String attr;
+        String val;
+        Table<Contact> table;
         readInput(file1, table1);
         readInput(file2, table2);
         System.out.println("Welcome to database display");
@@ -49,7 +53,45 @@ public class ContactList {
                     System.out.println("Goodbye");
                     System.exit(0);
                 case 1:
-                    
+                    group = getGroup("Enter Group");
+                    if (group != 1 && group != 2) {
+                        System.err.println("Invalid group");
+                        break;
+                    }
+                    /* Clear newline from input */
+                    sysin.nextLine();
+                    System.out.print("Enter attribute >");
+                    attr = sysin.nextLine();
+                    System.out.print("Enter value >");
+                    val = sysin.nextLine();
+                    if (group == 1) {
+                        table = table1.intersect(attr, val, table2);
+                    }
+                    else { /* group == 2 */
+                        table = table2.intersect(attr, val, table1);
+                    }
+                    System.out.println(table);
+                case 2:
+                    group = getGroup("Enter Contact List");
+                    if (group == 1) {
+                        table = table1.difference(table2);
+                    }
+                    else if (group == 2) {
+                        table = table2.difference(table1);
+                    }
+                    else {
+                        System.err.println("Invalid List Number");
+                        break;
+                    }
+                case 6:
+                    System.out.println("===========================Contact List 1============================");
+                    System.out.print(table1);
+                    System.out.println("===========================Contact List 1============================");
+                    System.out.println();
+                    System.out.println("===========================Contact List 2============================");
+                    System.out.print(table2);
+                    System.out.println("===========================Contact List 2============================");
+                    break;
             }
         }
     }
@@ -68,7 +110,7 @@ public class ContactList {
     }
 
 
-    private int get_group(String prompt)
+    private int getGroup(String prompt)
     {
         System.out.printf("%s >", prompt);
         return readIntChoice();
