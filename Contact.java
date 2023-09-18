@@ -13,8 +13,8 @@ public class Contact implements ContactInterface, Cloneable {
     private String email; // Email
 
     /** The valid attributes of a contact */
-    private final static String[] attrs = new String[] { "phone", "status", "first", "last", "email", "street", "city",
-            "state", "zip" };
+    private final static String[] attrs = new String[] { "phone", "status",
+            "first", "last", "email", "street", "city", "state", "zip" };
 
     /**
      * Class that reperesents a simple contact
@@ -31,8 +31,9 @@ public class Contact implements ContactInterface, Cloneable {
      * @param email  contact's email string. No checks are required.
      * @throws IllegalStateException If zipcode or phone are not formatted correctly
      */
-    public Contact(String first, String last, String status, String street, String city, String state, String zip,
-            String phone, String email) throws IllegalStateException {
+    public Contact(String first, String last, String status, String street,
+            String city, String state, String zip, String phone, String email)
+            throws IllegalStateException {
         this.person = new PersonalInfo(first, last, status);
         this.address = new Address(zip, street, city, state);
         this.checkPhone(phone);
@@ -63,7 +64,8 @@ public class Contact implements ContactInterface, Cloneable {
      * @return String representation
      */
     public String toString() {
-        return String.format("\t%s:\tPhone: %s\n%s", person.toString(), phone, address.toString());
+        return String.format("\t%s:\tPhone: %s\n%s", person.toString(),
+                phone, address.toString());
     }
 
     /**

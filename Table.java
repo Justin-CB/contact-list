@@ -117,10 +117,9 @@ public class Table<T extends Contact> {
                 newTable.insert((T) i.data.clone());
             }
         }
-        for (Node<T> i = table.head; i != null; i = i.next) {
+        for (Node<T> i = table.head; i != null && !keep; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
                 keep = true;
-                break;
             }
         }
         if (!keep) {
@@ -138,15 +137,16 @@ public class Table<T extends Contact> {
      */
     public void remove(String attribute, String value) throws IllegalArgumentException {
         Node<T> prev = null;
-        for (Node<T> i = this.head; i != null; i = i.next) {
+        boolean searching = true;
+        for (Node<T> i = this.head; i != null && searching; i = i.next) {
             if (i.data.hasValue(attribute, value)) {
                 if (i == this.head) {
                     this.head = i.next;
-                    break;
+                    searching = false;
                 } else {
                     prev.next = i.next;
                     i = prev;
-                    break;
+                    searching = false;
                 }
             }
             prev = i;

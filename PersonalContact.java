@@ -12,8 +12,7 @@ public class PersonalContact extends Contact {
     private static final String[] attrs = { "label" };
 
     /**
-     * Creates a PersonalContact object. Does not contain a status since the
-     * csv input does not contain statuses.
+     * Creates a PersonalContact object.
      * 
      * @param first  contact's first name
      * @param last   contact's last name
@@ -28,8 +27,10 @@ public class PersonalContact extends Contact {
      * @param email  contact's email string. No checks are required.
      * @throws IllegalStateException If zipcode or phone are not formatted correctly
      */
-    public PersonalContact(String first, String last, String street, String city, String state, String zip,
-            String phone, String email, String label) throws IllegalStateException {
+    public PersonalContact(String first, String last, String street,
+            String city, String state, String zip, String phone, String email,
+            String label) throws IllegalStateException {
+        // Does not contain a status since the csv input does not contain statuses.
         super(first, last, "NA", street, city, state, zip, phone, email);
         this.label = Label.fromString(label);
     }
@@ -110,7 +111,7 @@ public class PersonalContact extends Contact {
     }
 
     /**
-     * String representatino of an PersonalContact
+     * String representation of an PersonalContact
      * 
      * @return the string representation of an PersonalContact
      */

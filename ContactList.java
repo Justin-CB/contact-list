@@ -1,3 +1,4 @@
+
 /**
  * @author Justin Bester and Kevin McCall
  * @version 1.0
@@ -6,10 +7,10 @@
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.invoke.StringConcatFactory;
-import java.util.InputMismatchException;
 
 public class ContactList {
+    private static final int PERSONAL_CONTACT_PARAMS = 9;
+    private static final int WORK_CONTACT_PARAMS = 12;
     /** first table */
     private Table<Contact> table1;
     /** second table */
@@ -201,6 +202,7 @@ public class ContactList {
 
     /**
      * helper method to read in an int for choice menus
+     * 
      * @return the choice the user entered
      */
     private int readIntChoice() {
@@ -217,6 +219,7 @@ public class ContactList {
     /**
      * Get the table number (without checking if it's correct) from the user
      * based on a prompt
+     * 
      * @param prompt The prompt to give the user for the table number
      * @return The group the user entred
      */
@@ -227,6 +230,7 @@ public class ContactList {
 
     /**
      * prints out the main menu and returns the choice the user chuses
+     * 
      * @return the number the user enters
      */
     private int menu() {
@@ -246,7 +250,8 @@ public class ContactList {
     /**
      * Helper method to determine if a file is a personal or work contact
      * and call the correct method to read the rest of the file into the table
-     * @param in the Scanner for the input file
+     * 
+     * @param in    the Scanner for the input file
      * @param table the table to read into
      */
     private void readInput(Scanner in, Table<Contact> table) {
@@ -266,42 +271,48 @@ public class ContactList {
 
     /**
      * Helper method to read personal contacts into a table
-     * @param in the Scanner for the input file
+     * 
+     * @param in    the Scanner for the input file
      * @param table the table to read into
      */
     private void readPersonal(Scanner in, Table<Contact> table) {
         String line[];
         while (in.hasNextLine()) {
             line = readCSVLine(in);
-            if (line.length != 9) {
+            if (line.length != PERSONAL_CONTACT_PARAMS) {
                 System.err.println("Error4: bad input file");
                 System.exit(4);
             }
-            table.insert(new PersonalContact(line[1], line[0], line[4], line[5], line[6], line[7], line[3], line[2],
-                    line[8]));
+            // converting from csv order to constructor order
+            table.insert(new PersonalContact(line[1], line[0], line[4], line[5],
+                    line[6], line[7], line[3], line[2], line[8]));
         }
     }
 
     /**
      * Helper method to read work contacts into a table
-     * @param in the Scanner for the input file
+     * 
+     * @param in    the Scanner for the input file
      * @param table the table to read into
      */
     private void readWork(Scanner in, Table<Contact> table) {
         String line[];
         while (in.hasNextLine()) {
             line = readCSVLine(in);
-            if (line.length != 12) {
+            if (line.length != WORK_CONTACT_PARAMS) {
                 System.err.println("Error5: bad input file");
                 System.exit(5);
             }
-            table.insert(new WorkContact(line[1], line[0], line[2], line[5], line[6], line[7], line[8], line[4],
-                    line[3], line[9], line[10], line[11]));
+            // converting from csv order to constructor order
+            table.insert(new WorkContact(line[1], line[0], line[2], line[5],
+                    line[6], line[7], line[8], line[4], line[3], line[9],
+                    line[10], line[11]));
         }
     }
 
     /**
      * Helper method to read a line of CSV from an input file
+     * 
      * @param in The Scanner to read from
      * @return A string array of the values split by the comma separation
      */
@@ -327,6 +338,7 @@ public class ContactList {
 
     /**
      * The main method
+     * 
      * @param args the command-line arguments
      */
     public static void main(String args[]) {
