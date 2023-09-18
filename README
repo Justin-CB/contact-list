@@ -1,0 +1,7 @@
+To run, do:
+```
+javac ContactList.java
+java ContactList
+```
+It will ask for filenames of 2 contact files, which should be formatted
+like either `p` or `w`.
